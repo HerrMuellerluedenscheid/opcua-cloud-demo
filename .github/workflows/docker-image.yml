@@ -15,7 +15,7 @@ jobs:
     - name: Login to SCW Container Registry
       uses: docker/login-action@v3
       with:
-        registry: rg.nl-ams.scw.cloud
+        registry: rg.nl-ams.scw.cloud/itorius
         username: ${{ vars.SCW_USERNAME }}
         password: ${{ secrets.SCW_SECRET_KEY }}
     - uses: actions/checkout@v4
