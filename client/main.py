@@ -22,7 +22,7 @@ class SubHandler:
 
 
 async def main():
-    url = "opc.tcp://opcua-cloud-demo.onrender.com:4840/freeopcua/server/"
+    url = "opc.tcp://0.0.0.0:4840/"
     async with Client(url=url) as client:
         _logger.info("Root node is: %r", client.nodes.root)
         _logger.info("Objects node is: %r", client.nodes.objects)
@@ -43,9 +43,17 @@ async def main():
         # await var.write_value(ua.Variant([23], ua.VariantType.Int64)) #set node value using explicit data type
         # await var.write_value(3.9) # set node value using implicit data type
 
+
+        # myvar = root.get_child(["0:Objects", "{}:MyObject".format(idx), "{}:MyVariable".format(idx)])
+        # obj = root.get_child(["0:Objects", "{}:MyObject".format(idx)])
         # Now getting a variable node using its browse path
-        myvar = await client.nodes.root.get_child("/MyVariable")
-        obj = await client.nodes.root.get_child("MyObject")
+        print("here")
+        obj = await client.nodes.root.get_child(f"0:Objects")
+        print("objects: ", obj)
+        # obj = await client.nodes.root.get_child([f"0:Objects", f"2:MyObject"])
+
+        myvar = await client.nodes.root.get_child([f"0:Objects", f"2:MyObject", f"2:MyVariable"])
+        print("myvar is: ", myvar)
         _logger.info("myvar is: %r", myvar)
 
         # subscribing to a variable node
@@ -59,9 +67,6 @@ async def main():
         # await sub.unsubscribe(handle)
         # await sub.delete()
 
-        # calling a method on server
-        res = await obj.call_method("2:multiply", 3, "klk")
-        _logger.info("method result is: %r", res)
         while True:
             await asyncio.sleep(1)
 
