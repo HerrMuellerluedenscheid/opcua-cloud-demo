@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  login:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Login to GitLab
+        uses: docker/login-action@v3
+        with:
+          registry: rg.nl-ams.scw.cloud
+          username: ${{ vars.SCW_USERNAME }}
+          password: ${{ secrets.SCW_SECRET_KEY }}
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag rg.nl-ams.scw.cloud/itorius/itorius-opcua-server:latest
+    - name: push the Docker image
+      run: docker push rg.nl-ams.scw.cloud/itorius/itorius-opcua-server:latest
