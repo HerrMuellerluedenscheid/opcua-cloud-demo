@@ -6,8 +6,7 @@ from asyncua import Server, ua
 async def main():
     server = Server()
     await server.init()
-    server.set_endpoint('opc.tcp://0.0.0.0:80/')
-
+    server.set_endpoint('opc.tcp://0.0.0.0:4840')
     uri = "http://examples.freeopcua.github.io"
     idx = await server.register_namespace(uri)
 

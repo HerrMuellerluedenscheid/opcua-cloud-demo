@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY server/. .
 
 # Expose the port that the server will run on
-EXPOSE 4840
+EXPOSE 4840/tcp
 
 # Command to run the server
 CMD ["python", "main.py"]
